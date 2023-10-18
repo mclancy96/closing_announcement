@@ -54,5 +54,4 @@ const playTime = (time) => {
     const minute = time.slice(3, 5);
     const period = parseInt(rawHour) > 11 ? "PM" : "AM";
     // Play those files
-    console.log("Time is:", `${hour}:${minute} ${period}`)
 }
