@@ -1,11 +1,12 @@
 const PARTONE = "main_sound.wav"
+const CLOSINGTIME = "ninepm.wav"
 
-const announce = () => {
-    const closingTime = document.getElementById('closingTime');
-    console.log("clsoing time:", closingTime.value)
+const announce = async () => {
+    const closingTime = document.getElementById('closingTime').value;
     const reopenTime = document.getElementById('reopenTime');
-    playSound(PARTONE);
-    playTime(closingTime);
+
+    await playSound(PARTONE);
+    await playTime(closingTime);
 
     // Attention Target guests: the time is now
     // Play current time
@@ -25,31 +26,33 @@ const announce = () => {
 const playSound = (fileName) => {
     const soundFile = document.createElement("audio");
     soundFile.preload = "auto";
-
-    //Load the sound file (using a source element for expandability)
-    const partOne = document.createElement("source");
-    partOne.src = '/sounds/' + fileName;
-    soundFile.appendChild(partOne);
-
+    const source = document.createElement("source");
+    source.src = '/sounds/' + fileName;
+    soundFile.appendChild(source);
     soundFile.load();
-    soundFile.volume = 0.000000;
-    soundFile.play();
-
     //Plays the sound
-    function play() {
-        //Set the current time for the audio file to the beginning
-        soundFile.currentTime = 0;
-        soundFile.volume = 1;
+    const playPromise = new Promise((resolve, reject) => {
+        function play() {
+            //Set the current time for the audio file to the beginning
+            soundFile.currentTime = 0;
+            soundFile.volume = 1;
 
-        //Due to a bug in Firefox, the audio needs to be played after a delay
-        setTimeout(function () { soundFile.play(); }, 1);
-    }
-
-    play()
+            //Due to a bug in Firefox, the audio needs to be played after a delay
+            setTimeout(function () { soundFile.play(); }, 1);
+        }
+        play()
+        soundFile.addEventListener('ended', () => { resolve('Audio complete') })
+        soundFile.addEventListener('error', () => { reject('Audio error') })
+    })
+    return playPromise;
 }
 
 const playTime = (time) => {
-    // Get the time
-    // Break it down into hour, minutes, and period (am/pm)
+    // Break the time down into hour, minutes, and period (am/pm)
+    const rawHour = time.slice(0, 2)
+    const hour = parseInt(rawHour) > 12 ? `${parseInt(rawHour) - 12}` : rawHour;
+    const minute = time.slice(3, 5);
+    const period = parseInt(rawHour) > 11 ? "PM" : "AM";
     // Play those files
+    console.log("Time is:", `${hour}:${minute} ${period}`)
 }
