@@ -1,3 +1,4 @@
+const { TimeComponent, createTimeComponent } = require("./timeClass");
 const PARTONE = "main_sound.wav"
 const CLOSINGTIME = "ninepm.wav"
 
@@ -49,9 +50,9 @@ const playSound = (fileName) => {
 
 const playTime = (time) => {
     // Break the time down into hour, minutes, and period (am/pm)
-    const rawHour = time.slice(0, 2)
-    const hour = parseInt(rawHour) > 12 ? `${parseInt(rawHour) - 12}` : rawHour;
-    const minute = time.slice(3, 5);
-    const period = parseInt(rawHour) > 11 ? "PM" : "AM";
+    const timeObj = createTimeComponent(time)
     // Play those files
+}
+const getDuration = (startTime, endTime) => {
+    // converts the provide start and end times to a duration of hours (if applicable) and minutes. Mostly just to be used with a matter of minutes.
 }
