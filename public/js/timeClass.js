@@ -22,30 +22,30 @@ export class TimeComponent {
   get getRawHour() {
     return this.rawHour;
   }
-  set hour(newHour) {
+  set setHour(newHour) {
     this.hour = newHour;
   }
-  set rawHour(newRawHour) {
+  set setRawHour(newRawHour) {
     this.rawHour = newRawHour;
   }
-  set minute(newMinute) {
+  set setMinute(newMinute) {
     this.minute = newMinute;
   }
-  set period(newPeriod) {
+  set setPeriod(newPeriod) {
     this.period = newPeriod;
   }
   /**
    * Used to add 24 hours to make the resulting value not negative.
    */
   add24Hours() {
-    this.rawHour(this.getRawHour + 24);
+    this.rawHour = this.rawHour + 24;
   }
   /**
    * Used to add 60 minutes to make the resulting value not negative.
    */
   add60Minutes() {
-    this.minute(this.getMinute + 60);
-    this.rawHour(this.getRawHour - 1);
+    this.minute = this.minute + 60;
+    this.rawHour = this.getRawHour - 1;
   }
 }
 

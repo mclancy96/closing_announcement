@@ -8,10 +8,10 @@ import {
 } from "./constants.js";
 
 const getTimeComponents = () => {
-  closingTime = new TimeComponent(
+  const closingTime = new TimeComponent(
     document.getElementById(CLOSING_INPUT_ELEMENT_TAG).value
   );
-  reopenTime = new TimeComponent(
+  const reopenTime = new TimeComponent(
     document.getElementById(REOPEN_INPUT_ELEMENT_TAG).value
   );
   return [closingTime, reopenTime];
@@ -51,7 +51,8 @@ export const announceClosed = () => {
 
 export const closingOrClosed = () => {
   const [closingTime, reopenTime] = getTimeComponents();
-  const timeNow = new Date(Date.now);
+  const timeNow = new Date(Date.now());
   const currentHour = timeNow.getHours();
+  console.log(currentHour, " current hour", closingTime.getRawHour, "raw");
   return currentHour >= closingTime.getRawHour ? CLOSED : CLOSING;
 };
