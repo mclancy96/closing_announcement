@@ -8,7 +8,6 @@ import { TimeComponent } from "./timeClass.js";
  * It will reject if there is an error with the file.
  */
 export const playSound = (fileName) => {
-    console.log("playSound has been activated")
     const soundFile = document.createElement("audio");
     soundFile.preload = "auto";
     const source = document.createElement("source");
