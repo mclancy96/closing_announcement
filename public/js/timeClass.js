@@ -1,16 +1,13 @@
 export class TimeComponent {
-    constructor(hour, minute, period) {
-        this.hour = hour;
-        this.minute = minute;
-        this.period = period;
+    constructor(time) {
+        const rawHour = time.toString().slice(0, 2);
+        this.hour = parseInt(rawHour) > 12 ? `${parseInt(rawHour) - 12}` : rawHour;
+        this.minute = time.toString().slice(3, 5);
+        this.period = parseInt(rawHour) > 11 ? "PM" : "AM";
     }
+
 }
 
-export const createTimeComponent = (time) => {
-    const rawHour = time.slice(0, 2);
-    const hour = parseInt(rawHour) > 12 ? `${parseInt(rawHour) - 12}` : rawHour;
-    const minute = time.slice(3, 5);
-    const period = parseInt(rawHour) > 11 ? "PM" : "AM";
-    return new TimeComponent(hour, minute, period)
+export const getDuration = (startTime, endTime) => {
+    // converts the provide start and end times to a duration of hours (if applicable) and minutes. Mostly just to be used with a matter of minutes.
 }
-
