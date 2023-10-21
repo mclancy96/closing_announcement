@@ -7,15 +7,10 @@ import { CLOSING, CLOSED, CLOSING_BUTTON_ID } from "./constants.js";
 
 /**
  * Makes the desired announcement. Controls the flow of announcements
- * @param {String} typeOfAnnouncement what kind of announcement to make.
- * typeOfAnnouncement can be closing,
  */
-const announce = async (typeOfAnnouncement) => {
+const announce = async () => {
   // Determine whether the store is closed or closing
-  if (typeOfAnnouncement == CLOSING) {
-    typeOfAnnouncement = closingOrClosed();
-  }
-  console.log(typeOfAnnouncement);
+  let typeOfAnnouncement = closingOrClosed();
   switch (typeOfAnnouncement) {
     case CLOSING:
       announceClosing();
@@ -29,6 +24,4 @@ const announce = async (typeOfAnnouncement) => {
 };
 
 // adds the event listener to the announce button so it triggers the announcement.
-document
-  .getElementById(CLOSING_BUTTON_ID)
-  .addEventListener("click", announce(CLOSING));
+document.getElementById(CLOSING_BUTTON_ID).addEventListener("click", announce);
