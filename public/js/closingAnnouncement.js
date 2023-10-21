@@ -95,5 +95,12 @@ export const closingOrClosed = () => {
   const [closingTime, reopenTime] = getTimeComponents();
   const timeNow = new Date(Date.now());
   const currentHour = timeNow.getHours();
-  return currentHour >= closingTime.getRawHour ? CLOSED : CLOSING;
+  const currentMinute = timeNow.getMinutes();
+  if (
+    currentHour >= closingTime.getRawHour &&
+    currentMinute >= closingTime.getMinute
+  ) {
+    return CLOSED;
+  }
+  return CLOSING;
 };

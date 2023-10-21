@@ -38,14 +38,14 @@ export class TimeComponent {
    * Used to add 24 hours to make the resulting value not negative.
    */
   add24Hours() {
-    this.rawHour = this.rawHour + 24;
+    this.rawHour += +24;
   }
   /**
    * Used to add 60 minutes to make the resulting value not negative.
    */
   add60Minutes() {
-    this.minute = this.minute + 60;
-    this.rawHour = this.getRawHour - 1;
+    this.minute += 60;
+    this.rawHour -= 1;
   }
 }
 
@@ -59,18 +59,25 @@ export class TimeComponent {
  * @returns A number representing the duration in minutes.
  */
 export const getDuration = (startTime, endTime) => {
+  // make copies of the start and end time to not alter them
+  const testStartTime = new TimeComponent(
+    `${startTime.getRawHour}:${startTime.getMinute}`
+  );
+  const testEndTime = new TimeComponent(
+    `${endTime.getRawHour}:${endTime.getMinute}`
+  );
   // here we're testing whether the endTime is in the next day, i.e., 12am
-  if (startTime.getRawHour > endTime.getRawHour) {
-    endTime.add24Hours();
+  if (testStartTime.getRawHour > testEndTime.getRawHour) {
+    testEndTime.add24Hours();
   }
   // here we want to know if the start time's minutes are more than the end time's minutes.
-  if (startTime.getMinute > endTime.getMinute) {
-    endTime.add60Minutes();
+  if (testStartTime.getMinute > testEndTime.getMinute) {
+    testEndTime.add60Minutes();
   }
 
   let duration = 0;
-  duration += endTime.getMinute - startTime.getMinute;
-  duration += (endTime.getRawHour - startTime.getRawHour) * 60;
+  duration += testEndTime.getMinute - testStartTime.getMinute;
+  duration += (testEndTime.getRawHour - testStartTime.getRawHour) * 60;
 
   return duration;
 };

@@ -45,12 +45,15 @@ export const playSound = (fileName) => {
 export const playTime = async (time) => {
   // Play those files
   let hourFile = "";
-  if (time.getHour < 10) {
+  if (time.getHour == 0) {
+    hourFile = `numbers/12.mp3`;
+  } else if (time.getHour < 10) {
     hourFile = `numbers/${parseInt(time.getHour)}.mp3`;
   } else {
     hourFile = `numbers/${time.getHour}.mp3`;
   }
   let minuteFile = "";
+  console.log(time);
   if (time.getMinute >= 1) {
     minuteFile = `numbers/${time.getMinute}.mp3`;
   }
