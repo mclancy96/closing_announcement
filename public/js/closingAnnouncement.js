@@ -1,5 +1,5 @@
 import { TimeComponent, getDuration } from "./timeClass.js";
-import { playSound, playTime } from "./playAudio.js";
+import { playSounds, getTimeFiles } from "./playAudio.js";
 import {
   CLOSING_INPUT_ELEMENT_TAG,
   REOPEN_INPUT_ELEMENT_TAG,
@@ -30,39 +30,55 @@ const getTimeComponents = () => {
   return [closingTime, reopenTime];
 };
 
-export const announceClosing = async () => {
+export const announceClosing = () => {
   const [closingTime, reopenTime] = getTimeComponents();
   const timeNow = new Date(Date.now());
   const timeNowComponent = new TimeComponent(
     `${timeNow.toTimeString().slice(0, 5)}`
   );
   const duration = getDuration(timeNowComponent, closingTime);
+  const soundFiles = [];
+
   // Attention Target guests: the time is now
-  await playSound(CLOSING_PREFIX + CLOSING_1);
+  soundFiles.push(CLOSING_PREFIX + CLOSING_1);
   // Play current time
-  await playTime(timeNowComponent);
+  let timeFiles = getTimeFiles(timeNowComponent);
+  timeFiles.forEach((file) => {
+    soundFiles.push(file);
+  });
   // and your target store will be closing in
-  await playSound(CLOSING_PREFIX + CLOSING_2);
+  soundFiles.push(CLOSING_PREFIX + CLOSING_2);
   // Play time left
-  await playSound(NUMBER_PREFIX + `${duration}.mp3`);
+  soundFiles.push(NUMBER_PREFIX + `${duration}.mp3`);
   // minutes at
-  await playSound(CLOSING_PREFIX + CLOSING_3);
+  soundFiles.push(CLOSING_PREFIX + CLOSING_3);
   // play closingTime
-  await playTime(closingTime);
-  // Please make your final selections and bring them to a register at this time. We will reopen tomorrow morning at
-  await playSound(CLOSING_PREFIX + CLOSING_4);
+  timeFiles = getTimeFiles(closingTime);
+  timeFiles.forEach((file) => {
+    soundFiles.push(file);
+  });
+  // Please make your final selections and bring them to a register at
+  // this time.We will reopen tomorrow morning at
+  soundFiles.push(CLOSING_PREFIX + CLOSING_4);
   // Play reopenTime
-  await playTime(reopenTime);
+  timeFiles = getTimeFiles(reopenTime);
+  timeFiles.forEach((file) => {
+    soundFiles.push(file);
+  });
   // for your shopping convenience. Again, it is now
-  await playSound(CLOSING_PREFIX + CLOSING_5);
+  soundFiles.push(CLOSING_PREFIX + CLOSING_5);
   // Play current time
-  await playTime(timeNowComponent);
+  timeFiles = getTimeFiles(timeNowComponent);
+  timeFiles.forEach((file) => {
+    soundFiles.push(file);
+  });
   // and your target store will be closing in
-  await playSound(CLOSING_PREFIX + CLOSING_6);
+  soundFiles.push(CLOSING_PREFIX + CLOSING_6);
   // Play time left
-  await playSound(NUMBER_PREFIX + `${duration}.mp3`);
+  soundFiles.push(NUMBER_PREFIX + `${duration}.mp3`);
   // minutes. Thank you and have a nice night!
-  await playSound(CLOSING_PREFIX + CLOSING_7);
+  soundFiles.push(CLOSING_PREFIX + CLOSING_7);
+  playSounds(soundFiles);
 };
 
 export const announceClosed = async () => {
@@ -71,24 +87,35 @@ export const announceClosed = async () => {
   const timeNowComponent = new TimeComponent(
     `${timeNow.toTimeString().slice(0, 5)}`
   );
+  const soundFiles = [];
   // Attention Target guests: the time is now
-  await playSound(CLOSING_PREFIX + CLOSED_1);
+  soundFiles.push(CLOSING_PREFIX + CLOSED_1);
   // Play current time
-  await playTime(timeNowComponent);
+  let timeFiles = getTimeFiles(timeNowComponent);
+  timeFiles.forEach((file) => {
+    soundFiles.push(file);
+  });
   // and your target store is now closed. If you have not done so
   // already, please make your final selections and bring them to
   // a register located at the front of the store. Target will
   // reopen tomorrow morning at
-  await playSound(CLOSING_PREFIX + CLOSED_2);
+  soundFiles.push(CLOSING_PREFIX + CLOSED_2);
   // Play reopenTime
-  await playTime(reopenTime);
+  timeFiles = getTimeFiles(reopenTime);
+  timeFiles.forEach((file) => {
+    soundFiles.push(file);
+  });
   // for your shopping convenience. Again, it is now
-  await playSound(CLOSING_PREFIX + CLOSED_3);
+  soundFiles.push(CLOSING_PREFIX + CLOSED_3);
   // Play current time
-  await playTime(timeNowComponent);
+  timeFiles = getTimeFiles(timeNowComponent);
+  timeFiles.forEach((file) => {
+    soundFiles.push(file);
+  });
   // and your target store is now closed. Thank you and have a
   // nice night!
-  await playSound(CLOSING_PREFIX + CLOSED_4);
+  soundFiles.push(CLOSING_PREFIX + CLOSED_4);
+  playSounds(soundFiles);
 };
 
 export const closingOrClosed = () => {
